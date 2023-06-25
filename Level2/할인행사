@@ -1,27 +1,17 @@
-package org.example;
-
 import java.util.Arrays;
 import java.util.HashMap;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
-public class Main {
-    static HashMap<String, Integer> wantMap = new HashMap<String, Integer>();
-
-    public static void main(String[] args) {
-        String[] want = {"banana", "apple", "rice", "pork", "pot"};
-        int[] number = {3, 2, 2, 2, 1};
-        String[] discount = {"chicken", "apple", "apple", "banana", "rice",
-                "apple", "pork", "banana", "pork", "rice", "pot",
-                "banana", "apple", "banana"
-        };
+class Solution {
+    HashMap<String, Integer> wantMap = new HashMap<String, Integer>();
+    
+    public int solution(String[] want, int[] number, String[] discount) {
         int answer = 0, start_discount = 0;
 
         InitHashMAP(want);
 
         while(discount.length - start_discount >= 10){
             answer++;
-
+            
             for(int i = start_discount; i < start_discount + 10; i++){
                 if(!CheckContainKey(discount[i])){
                     answer -= 1;
@@ -40,17 +30,19 @@ public class Main {
                 }
             }
         }
+        
+        return answer;
     }
-
-    public static boolean CheckContainKey(String discount){
+    
+    public boolean CheckContainKey(String discount){
         return wantMap.containsKey(discount);
     }
 
-    public static void CountMap(String discount){
+    public void CountMap(String discount){
         wantMap.put(discount, wantMap.get(discount) + 1);
     }
 
-    public static void InitHashMAP(String[] want){
+    public void InitHashMAP(String[] want){
         for(int i = 0; i < want.length; i++)
             wantMap.put(want[i], 0);
     }
