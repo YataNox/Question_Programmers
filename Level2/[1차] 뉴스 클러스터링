@@ -1,0 +1,83 @@
+import java.util.*;
+
+class Solution {
+    HashMap<String, Integer> multi1 = new HashMap<String, Integer>();
+    HashMap<String, Integer> multi2 = new HashMap<String, Integer>();
+    
+    public int solution(String str1, String str2) {
+        int answer = 0;
+        multiCheck(multi1, str1.toLowerCase());
+        multiCheck(multi2, str2.toLowerCase());
+
+        if(multi1.size() == 0 && multi2.size() == 0)
+            return 65536;
+        else {
+            Double intersection = Get_Intersection();
+            Double union = Get_Union();
+
+            return (int)(intersection / union * 65536);
+        }
+    }
+    
+    public void multiCheck(HashMap<String, Integer> multi, String str){
+        for(int i = 0; i < str.length() - 1; i++){
+            String temp = str.substring(i, i + 2);
+
+            if(temp.trim().length() != 2)
+                continue;
+
+            if(!IsAlpha(temp))
+                continue;
+
+            multi.put(temp, multi.getOrDefault(temp, 0) + 1);
+        }
+    }
+
+    public Double Get_Intersection(){
+        Double sum = 0d;
+        for(String s : new ArrayList<String>(multi1.keySet())){
+            if(multi2.get(s) == null)
+                continue;
+
+            sum += multi1.get(s) > multi2.get(s) ? multi2.get(s) : multi1.get(s);
+        }
+
+        System.out.println(sum);
+        return sum;
+    }
+    
+    public Double Get_Union(){
+        Double sum = 0d;
+
+        for(String s : new ArrayList<String>(multi1.keySet())){
+            if(multi2.get(s) == null)
+                sum += multi1.get(s);
+            else
+                sum += multi1.get(s) > multi2.get(s) ? multi1.get(s) : multi2.get(s);
+        }
+
+        for(String s : new ArrayList<String>(multi2.keySet())){
+            if(multi1.get(s) == null)
+                sum += multi2.get(s);
+        }
+
+        System.out.println(sum);
+        return sum;
+    }
+
+    public boolean IsAlpha(String s)
+    {
+        if (s == null) {
+            return false;
+        }
+
+        for (int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if (!(c >= 'A' && c <= 'Z') && !(c >= 'a' && c <= 'z')) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
