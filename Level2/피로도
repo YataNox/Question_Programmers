@@ -1,0 +1,34 @@
+class Solution {
+    int maxCount = Integer.MIN_VALUE;
+    
+    public int solution(int k, int[][] dungeons) {
+        boolean[] visite = new boolean[dungeons.length];
+        DFS(k, dungeons, visite);
+        
+        return maxCount;
+    }
+    
+    public void DFS(int k, int[][] dungeons, boolean[] visite){
+        int visiteCount = 0;
+        for(int i = 0; i < visite.length; i++){
+            if(visite[i])
+                visiteCount++;
+        }
+        
+        if(maxCount < visiteCount)
+            maxCount = visiteCount;
+        
+        for(int i = 0; i < dungeons.length; i++){
+            if(!visite[i]){
+                if(dungeons[i][0] > k)
+                    continue;
+                
+                visite[i] = true;
+                k -= dungeons[i][1];
+                DFS(k, dungeons, visite);
+                k += dungeons[i][1];
+                visite[i] = false;
+            }
+        }
+    }
+}
