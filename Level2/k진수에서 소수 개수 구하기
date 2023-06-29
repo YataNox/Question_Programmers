@@ -1,0 +1,45 @@
+class Solution {
+    public int solution(int n, int k) {
+        int answer = 0;
+
+        String[] text = Integer.toString(n, k).split("0");
+        
+        if(text.length == 0)
+            return 0;
+        
+        for(int i = 0; i < text.length; i++)
+        {
+            if(text[i].equals(""))
+                continue;
+            
+            long nl = Long.parseLong(text[i].trim());
+
+            if(nl < 2L)
+                continue;
+
+            if(primeNumber(nl))
+                answer++;
+        }
+  
+        return answer;
+    }
+    
+    public boolean primeNumber(long number){
+        if(number == 2)
+            return true;
+
+        for(int i = 2; i <= Math.sqrt(number); i++){
+            if(number % i == 0)
+                return false;
+        }
+
+        return true;
+    }
+}
+
+// 정수 n이 주어짐, 이를 K진수로 바꿨을 때 조건에 맞는 소수를 구함
+// 소수양쪽에 0이 있는경우 080
+// 80 오른쪽에만 0이 있고 왼쪽엔 없는 경우
+// 08 왼쪽에만 0이 있고 오른쪽엔 없는 겨우
+// 8 양쪽에 아무것도 없는 경우
+// 수는 각 자릿수에 0을 포함하지 않는 소수
