@@ -1,0 +1,45 @@
+import java.util.*;
+
+class Solution {
+    public String solution(int n, int t, int m, int p) {
+        String answer = "";
+        ArrayList<Character> list = new ArrayList<Character>();
+        int mynum = 0;
+        String s = "";
+
+        for(int i = 0; i < m * t; i++){
+            s += BinaryConversion(n, i);
+
+            if(s.length() > m * t)
+                break;
+        }
+
+        for(char c : s.toCharArray()){
+            list.add(Character.toUpperCase(c));
+        }
+
+        Iterator iter = list.iterator();
+        while(iter.hasNext()){
+            if(mynum % m == p-1 && answer.length() < t){
+                mynum++;
+                answer += iter.next();
+                continue;
+            }
+
+            iter.next();
+            mynum++;
+        }
+
+        return answer;
+    }
+    
+    public String BinaryConversion(int binary, int num){
+        if(binary == 10)
+            return Integer.toString(num);
+        
+        if(binary == 16)
+            return Integer.toHexString(num);
+        
+        return Integer.toString(num, binary);
+    }
+}
