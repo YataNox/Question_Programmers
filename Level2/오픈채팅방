@@ -1,0 +1,46 @@
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] record) {
+        String[] answer;
+        
+        int EnterNChange_Count = 0;
+        HashMap<String, String> hash = new HashMap<String, String>();
+        for(int i = 0; i < record.length; i++){
+            String[] splitRecord = record[i].split(" ");
+            
+            if(splitRecord[0].equals("Leave")){
+                EnterNChange_Count++;
+                continue;
+            }
+            
+            if(splitRecord[0].equals("Enter")){
+                EnterNChange_Count++;
+                hash.put(splitRecord[1], splitRecord[2]);
+            }
+            else if(splitRecord[0].equals("Change"))
+                hash.replace(splitRecord[1], splitRecord[2]);
+            
+        }
+        
+        answer = new String[EnterNChange_Count];
+        int c = 0;
+        for(int i = 0; i < record.length; i++){
+            String[] splitRecord = record[i].split(" ");
+            
+            if(splitRecord[0].equals("Change"))
+                continue;
+            
+            if(splitRecord[0].equals("Enter")){
+                answer[c++] = hash.get(splitRecord[1]) + "님이 들어왔습니다.";
+            }else if(splitRecord[0].equals("Leave")){
+                answer[c++] = hash.get(splitRecord[1]) + "님이 나갔습니다.";
+            }
+        }
+        
+        return answer;
+    }
+}
+
+// 가상의 닉네임을 사용하는 채팅방
+// 닉네임 변경하는 법은 채팅방을 나갔다가 다시오는 것, 채팅방에서 이름을 변경하는것
