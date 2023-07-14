@@ -1,0 +1,57 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String dirs) {
+        int answer = 0;
+        String[] direction = dirs.split("");
+        int x = 5, y = 5;
+        int[][][] map = new int[11][11][4]; // 0~10, 0~10, 0~3, Start (5,5)   
+        
+        // dir : 0 U, 1 D, 2 L, 3 R
+        for(int i = 0; i < direction.length; i++){
+            if(direction[i].equals("U")){
+                if(y == 0)
+                    continue;
+                
+                if(map[x][y][0] == 0)
+                    answer++;
+                
+                map[x][y][0]++;
+                map[x][--y][1]++;
+            }
+            else if(direction[i].equals("D")){
+                if(y == 10)
+                    continue;
+                
+                if(map[x][y][1] == 0)
+                    answer++;
+                
+                map[x][y][1]++;
+                map[x][++y][0]++;
+            }
+            else if(direction[i].equals("L")){
+                if(x == 0)
+                    continue;
+                
+                if(map[x][y][2] == 0)
+                    answer++;
+                
+                map[x][y][2]++;
+                map[--x][y][3]++;
+            }
+            else if(direction[i].equals("R")){
+                if(x == 10)
+                    continue;
+                
+                if(map[x][y][3] == 0)
+                    answer++;
+                
+                map[x][y][3]++;
+                map[++x][y][2]++;
+            }
+        }
+        
+        return answer;
+    }
+}
+
