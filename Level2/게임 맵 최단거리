@@ -1,0 +1,49 @@
+import java.util.LinkedList;
+import java.util.Queue;
+class Solution {
+    public int solution(int[][] maps) {
+        int n = maps.length, m = maps[0].length;
+        
+        int[][] visited = new int[n][m];
+        visited[0][0] = 1;
+        
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{0,0});
+        
+        while(!queue.isEmpty()){
+            int[] curr = queue.poll();
+            
+            if(curr[0] == n-1 && curr[1] == m-1){
+                return visited[n-1][m-1];
+            }
+            
+            if(curr[0]+1 < n && maps[curr[0]+1][curr[1]] == 1 && visited[curr[0]+1][curr[1]] == 0)
+            {
+                queue.add(new int[]{curr[0]+1, curr[1]});
+                visited[curr[0]+1][curr[1]] += visited[curr[0]][curr[1]] + 1;
+            }
+            if(curr[0] > 0 && maps[curr[0]-1][curr[1]] == 1 && visited[curr[0]-1][curr[1]] == 0){
+                queue.add(new int[]{curr[0]-1, curr[1]});
+                visited[curr[0]-1][curr[1]] += visited[curr[0]][curr[1]] + 1;
+            }
+            if(curr[1]+1 < m && maps[curr[0]][curr[1]+1] == 1 && visited[curr[0]][curr[1]+1] == 0)
+            {
+                queue.add(new int[]{curr[0], curr[1]+1});
+                visited[curr[0]][curr[1]+1] += visited[curr[0]][curr[1]] + 1;
+            }
+            if(curr[1] > 0 && maps[curr[0]][curr[1]-1] == 1 && visited[curr[0]][curr[1]-1] == 0){
+                queue.add(new int[]{curr[0], curr[1]-1});
+                visited[curr[0]][curr[1]-1] += visited[curr[0]][curr[1]] + 1;
+            }
+        }
+        
+        return -1;
+    }
+}
+
+// 방문 상태를 확인할 이차원 배열을 생성
+// 현재 위치를 기준으로 확인할 큐를 생성 기본값 0,0
+// 큐가 빌때 까지 실행하고 하나씩 poll
+// poll한 값이 끝값이면 해당 값을 리턴하고 종료
+// 아닐 경우 이동가능한 하, 상, 우, 좌 범위의 좌표를 큐에 삽입
+// 반복
