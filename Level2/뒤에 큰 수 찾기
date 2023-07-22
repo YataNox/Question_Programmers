@@ -1,0 +1,24 @@
+import java.util.*;
+class Solution {
+    public int[] solution(int[] numbers) {
+        PriorityQueue<int[]> pQ = new PriorityQueue<int[]>((a,b) -> a[1] - b[1]);
+        for(int i = 0; i < numbers.length; i++){
+            int value = numbers[i];
+            
+            while(!pQ.isEmpty() && pQ.peek()[1] < value)
+                numbers[pQ.poll()[0]] = value;
+            
+            pQ.add(new int[]{i, value});
+        }
+        
+        while (!pQ.isEmpty())
+            numbers[pQ.poll()[0]] = -1;
+        
+        return numbers;
+    }
+}
+
+// 정수로 이루어진 numbers
+// 자신의 뒷 숫자 중 자신보다 큰 가장 가까운 수를 뒷큰수
+// 모든 원소에 대한 뒷 큰수를 담은 배열을 리턴
+// 뒷큰수가 존재하지 않으면 -1
